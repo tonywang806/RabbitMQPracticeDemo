@@ -35,6 +35,9 @@ namespace RabbitMQSubscribeDemo
             tsStatusLable.Text = "受信中";
             tsStatusLable.BackColor = Color.Green;
 
+            btnReceiveMsgStart.Enabled = false;
+            btnRecevieMsgStop.Enabled = true;
+
             isListening = true;
             //受信処理起動
             bgwConsume.RunWorkerAsync(new AddNewMessage(MessageReceivedHandle));
@@ -45,6 +48,9 @@ namespace RabbitMQSubscribeDemo
             //受信処理停止
             tsStatusLable.Text = "受信停止";
             tsStatusLable.BackColor = Color.Red;
+
+            btnReceiveMsgStart.Enabled = true;
+            btnRecevieMsgStop.Enabled = false;
 
             isListening = false;
 
