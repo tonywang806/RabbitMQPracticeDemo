@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.lblDept = new System.Windows.Forms.Label();
             this.txtDept = new System.Windows.Forms.TextBox();
             this.lblUser = new System.Windows.Forms.Label();
@@ -37,12 +42,12 @@
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.tsStatusLable = new System.Windows.Forms.ToolStripStatusLabel();
             this.grdMsgDetils = new System.Windows.Forms.DataGridView();
+            this.bgwConsume = new System.ComponentModel.BackgroundWorker();
             this.MsgID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MsgCreateUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MsgCreateDateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MsgRecOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MsgContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.bgwConsume = new System.ComponentModel.BackgroundWorker();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdMsgDetils)).BeginInit();
             this.SuspendLayout();
@@ -124,6 +129,16 @@
             // 
             // grdMsgDetils
             // 
+            this.grdMsgDetils.AllowUserToAddRows = false;
+            this.grdMsgDetils.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdMsgDetils.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.grdMsgDetils.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdMsgDetils.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.MsgID,
@@ -133,38 +148,63 @@
             this.MsgContent});
             this.grdMsgDetils.Location = new System.Drawing.Point(0, 62);
             this.grdMsgDetils.Name = "grdMsgDetils";
+            this.grdMsgDetils.ReadOnly = true;
             this.grdMsgDetils.RowTemplate.Height = 21;
             this.grdMsgDetils.Size = new System.Drawing.Size(746, 231);
             this.grdMsgDetils.TabIndex = 4;
             // 
+            // bgwConsume
+            // 
+            this.bgwConsume.WorkerSupportsCancellation = true;
+            this.bgwConsume.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwConsume_DoWork);
+            // 
             // MsgID
             // 
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MsgID.DefaultCellStyle = dataGridViewCellStyle2;
             this.MsgID.HeaderText = "メッセージID";
             this.MsgID.Name = "MsgID";
+            this.MsgID.ReadOnly = true;
+            this.MsgID.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.MsgID.Width = 200;
             // 
             // MsgCreateUser
             // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MsgCreateUser.DefaultCellStyle = dataGridViewCellStyle3;
             this.MsgCreateUser.HeaderText = "発信者";
             this.MsgCreateUser.Name = "MsgCreateUser";
+            this.MsgCreateUser.ReadOnly = true;
+            this.MsgCreateUser.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.MsgCreateUser.Width = 80;
             // 
             // MsgCreateDateTime
             // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MsgCreateDateTime.DefaultCellStyle = dataGridViewCellStyle4;
             this.MsgCreateDateTime.HeaderText = "発信日時";
             this.MsgCreateDateTime.Name = "MsgCreateDateTime";
+            this.MsgCreateDateTime.ReadOnly = true;
+            this.MsgCreateDateTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.MsgCreateDateTime.Width = 80;
             // 
             // MsgRecOrder
             // 
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.MsgRecOrder.DefaultCellStyle = dataGridViewCellStyle5;
             this.MsgRecOrder.HeaderText = "受注番号";
             this.MsgRecOrder.Name = "MsgRecOrder";
+            this.MsgRecOrder.ReadOnly = true;
+            this.MsgRecOrder.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.MsgRecOrder.Width = 80;
             // 
             // MsgContent
             // 
             this.MsgContent.HeaderText = "メッセージ内容";
             this.MsgContent.Name = "MsgContent";
-            // 
-            // bgwConsume
-            // 
-            this.bgwConsume.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwConsume_DoWork);
+            this.MsgContent.ReadOnly = true;
+            this.MsgContent.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.MsgContent.Width = 300;
             // 
             // Subscriber
             // 
@@ -201,12 +241,12 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel tsStatusLable;
         private System.Windows.Forms.DataGridView grdMsgDetils;
+        private System.ComponentModel.BackgroundWorker bgwConsume;
         private System.Windows.Forms.DataGridViewTextBoxColumn MsgID;
         private System.Windows.Forms.DataGridViewTextBoxColumn MsgCreateUser;
         private System.Windows.Forms.DataGridViewTextBoxColumn MsgCreateDateTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn MsgRecOrder;
         private System.Windows.Forms.DataGridViewTextBoxColumn MsgContent;
-        private System.ComponentModel.BackgroundWorker bgwConsume;
     }
 }
 

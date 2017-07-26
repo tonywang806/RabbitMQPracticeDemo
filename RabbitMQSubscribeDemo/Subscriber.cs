@@ -1,4 +1,5 @@
 ﻿using Common.Utils;
+using Common.Model;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -14,9 +15,10 @@ using System.Windows.Forms;
 
 namespace RabbitMQSubscribeDemo
 {
+    delegate bool AddNewMessage(MessageModel msg);
     public partial class Subscriber : Form
     {
-        SerializeTool receiver = new SerializeTool();
+        private bool isListening = false;
         public Subscriber()
         {
             InitializeComponent();
@@ -33,8 +35,9 @@ namespace RabbitMQSubscribeDemo
             tsStatusLable.Text = "受信中";
             tsStatusLable.BackColor = Color.Green;
 
+            isListening = true;
             //受信処理起動
-            bgwConsume.RunWorkerAsync();
+            bgwConsume.RunWorkerAsync(new AddNewMessage(MessageReceivedHandle));
         }
 
         private void btnRecevieMsgStop_Click(object sender, EventArgs e)
@@ -42,6 +45,14 @@ namespace RabbitMQSubscribeDemo
             //受信処理停止
             tsStatusLable.Text = "受信停止";
             tsStatusLable.BackColor = Color.Red;
+
+            isListening = false;
+
+            if (bgwConsume.IsBusy)
+            {
+                bgwConsume.CancelAsync();
+            }
+            bgwConsume.Dispose();
             //try
             //{
             //    receiver.Dispose();
@@ -56,25 +67,36 @@ namespace RabbitMQSubscribeDemo
 
         }
 
-        private void MessageReceivedHandle(Common.Model.MessageModel msg)
+        private bool MessageReceivedHandle(MessageModel msg)
         {
             try
             {
 
-                DataGridViewRow row = new DataGridViewRow();
-                row.SetValues(msg.MsgID,msg.MsgCreateUser,msg.MsgCreateDateTime,msg.MsgRecOrder,msg.MsgContent);
-                grdMsgDetils.Rows.Add(row);
+                var index=grdMsgDetils.Rows.Add(msg.MsgID, msg.MsgCreateUser, msg.MsgCreateDateTime, msg.MsgRecOrder, msg.MsgContent);
+
+                //Debug用
+                //if (index > 0)
+                //{
+                //    Console.WriteLine("MessageReceivedHandle Method Excuted:{0}", index);
+                //    return true;
+                //}
+                //else
+                //{
+                //    Console.WriteLine("MessageReceivedHandle Method Excuted:{0}", false);
+                //    return false;
+                //}
 
             }
             catch(Exception ex)
             {
                 Debug.WriteLine("Grid Data Setting Error:{0}", ex.Message);
             }
-
+            return false;
         }
 
         private void bgwConsume_DoWork(object sender, DoWorkEventArgs e)
         {
+            Console.WriteLine("bgwConsume_DoWork Done!");
             var factory = new ConnectionFactory();
             //サーバー名
             factory.HostName = "godpubtest";
@@ -120,7 +142,9 @@ namespace RabbitMQSubscribeDemo
                         Debug.WriteLine(string.Concat("Delivery tag: ", ea.DeliveryTag));
                         Debug.WriteLine(string.Concat("Message id: ", body.MsgID));
                         Debug.WriteLine(string.Concat("Message: ", body.MsgContent));
-                        //callback(body);
+
+                        AddNewMessage a = (AddNewMessage)e.Argument;
+                        this.Invoke(a,body);
 
                         // 如果 channel.BasicConsume 中参数 noAck 设置为 false，必须加上消息确认语句
                         // Message acknowledgment（消息确认机制作用）
@@ -133,7 +157,13 @@ namespace RabbitMQSubscribeDemo
                          autoAck: false,/* Message acknowledgment（消息确认机制） */
                          consumer: consumer);
 
-                        Console.WriteLine(" Consume ID={0},Consume Status:{1}", consumeID, consumer.IsRunning);
+                        Console.WriteLine(" Consume ID={0}", consumeID);
+
+                        while (isListening)
+                        {
+                            //Console.WriteLine(" Consume status={0}", consumer.IsRunning);
+                        }
+
 
                     }
                     catch (Exception ex)
