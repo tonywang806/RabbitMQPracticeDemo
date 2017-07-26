@@ -36,7 +36,7 @@ namespace RabbitMQPublisherDemo
             try
             {
 
-                PubMessages.SentMessage(message);
+                Productor.SentMessage(message);
             }
             catch(Exception ex)
             {

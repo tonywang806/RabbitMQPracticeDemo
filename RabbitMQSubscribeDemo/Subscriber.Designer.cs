@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Subscriber));
             this.lblDept = new System.Windows.Forms.Label();
             this.txtDept = new System.Windows.Forms.TextBox();
             this.lblUser = new System.Windows.Forms.Label();
@@ -37,7 +36,13 @@
             this.btnRecevieMsgStop = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();
             this.tsStatusLable = new System.Windows.Forms.ToolStripStatusLabel();
-            this.grdMsgDetils = new C1.Win.C1FlexGrid.C1FlexGrid();
+            this.grdMsgDetils = new System.Windows.Forms.DataGridView();
+            this.MsgID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MsgCreateUser = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MsgCreateDateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MsgRecOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MsgContent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.bgwConsume = new System.ComponentModel.BackgroundWorker();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grdMsgDetils)).BeginInit();
             this.SuspendLayout();
@@ -119,13 +124,47 @@
             // 
             // grdMsgDetils
             // 
-            this.grdMsgDetils.ColumnInfo = resources.GetString("grdMsgDetils.ColumnInfo");
-            this.grdMsgDetils.Location = new System.Drawing.Point(-1, 72);
+            this.grdMsgDetils.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdMsgDetils.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.MsgID,
+            this.MsgCreateUser,
+            this.MsgCreateDateTime,
+            this.MsgRecOrder,
+            this.MsgContent});
+            this.grdMsgDetils.Location = new System.Drawing.Point(0, 62);
             this.grdMsgDetils.Name = "grdMsgDetils";
-            this.grdMsgDetils.Rows.Count = 1;
-            this.grdMsgDetils.Rows.DefaultSize = 18;
-            this.grdMsgDetils.Size = new System.Drawing.Size(747, 214);
+            this.grdMsgDetils.RowTemplate.Height = 21;
+            this.grdMsgDetils.Size = new System.Drawing.Size(746, 231);
             this.grdMsgDetils.TabIndex = 4;
+            // 
+            // MsgID
+            // 
+            this.MsgID.HeaderText = "メッセージID";
+            this.MsgID.Name = "MsgID";
+            // 
+            // MsgCreateUser
+            // 
+            this.MsgCreateUser.HeaderText = "発信者";
+            this.MsgCreateUser.Name = "MsgCreateUser";
+            // 
+            // MsgCreateDateTime
+            // 
+            this.MsgCreateDateTime.HeaderText = "発信日時";
+            this.MsgCreateDateTime.Name = "MsgCreateDateTime";
+            // 
+            // MsgRecOrder
+            // 
+            this.MsgRecOrder.HeaderText = "受注番号";
+            this.MsgRecOrder.Name = "MsgRecOrder";
+            // 
+            // MsgContent
+            // 
+            this.MsgContent.HeaderText = "メッセージ内容";
+            this.MsgContent.Name = "MsgContent";
+            // 
+            // bgwConsume
+            // 
+            this.bgwConsume.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bgwConsume_DoWork);
             // 
             // Subscriber
             // 
@@ -161,7 +200,13 @@
         private System.Windows.Forms.Button btnRecevieMsgStop;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel tsStatusLable;
-        private C1.Win.C1FlexGrid.C1FlexGrid grdMsgDetils;
+        private System.Windows.Forms.DataGridView grdMsgDetils;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgCreateUser;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgCreateDateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgRecOrder;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MsgContent;
+        private System.ComponentModel.BackgroundWorker bgwConsume;
     }
 }
 

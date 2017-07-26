@@ -61,7 +61,7 @@ namespace Common.Utils
                         //var message = Encoding.UTF8.GetString(body);
                         //Console.WriteLine(" [x] Received {0}", message);
 
-                        var body = GetBody(ea.Body);
+                        var body = SerializeTool.GetBody(ea.Body);
 
                         IBasicProperties basicProperties = ea.BasicProperties;
                         Console.WriteLine("Message received by the event based consumer. Check the debug window for details.");
@@ -81,11 +81,11 @@ namespace Common.Utils
 
                     try
                     {
-                        channel.BasicConsume(queue: queueName,
+                        string consumeID=channel.BasicConsume(queue: queueName,
                                              autoAck: false,/* Message acknowledgment（消息确认机制） */
                                              consumer: consumer);
 
-                        Console.WriteLine(" Press [enter] to exit.");
+                        Console.WriteLine(" Consume ID={0}", consumeID);
                         Console.ReadLine();
                     }
                     catch (Exception ex)

@@ -36,11 +36,10 @@
             this.lblDelivery = new System.Windows.Forms.Label();
             this.txtDeliveryUser = new System.Windows.Forms.TextBox();
             this.lblMsgContent = new System.Windows.Forms.Label();
-            this.txtMsgContent = new C1.Win.C1Input.C1TextBox();
             this.btnMsgDelivery = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.txtMsgContent)).BeginInit();
+            this.txtMsgContent = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // txtRecOrder
@@ -107,16 +106,6 @@
             this.lblMsgContent.TabIndex = 1;
             this.lblMsgContent.Text = "メッセージ内容";
             // 
-            // txtMsgContent
-            // 
-            this.txtMsgContent.Label = this.lblMsgContent;
-            this.txtMsgContent.Location = new System.Drawing.Point(89, 139);
-            this.txtMsgContent.Multiline = true;
-            this.txtMsgContent.Name = "txtMsgContent";
-            this.txtMsgContent.Size = new System.Drawing.Size(246, 104);
-            this.txtMsgContent.TabIndex = 2;
-            this.txtMsgContent.Tag = null;
-            // 
             // btnMsgDelivery
             // 
             this.btnMsgDelivery.Font = new System.Drawing.Font("MS UI Gothic", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(128)));
@@ -146,13 +135,21 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "担当者";
             // 
+            // txtMsgContent
+            // 
+            this.txtMsgContent.Location = new System.Drawing.Point(89, 139);
+            this.txtMsgContent.Multiline = true;
+            this.txtMsgContent.Name = "txtMsgContent";
+            this.txtMsgContent.Size = new System.Drawing.Size(246, 105);
+            this.txtMsgContent.TabIndex = 4;
+            // 
             // Publisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(379, 382);
-            this.Controls.Add(this.btnMsgDelivery);
             this.Controls.Add(this.txtMsgContent);
+            this.Controls.Add(this.btnMsgDelivery);
             this.Controls.Add(this.lblMsgContent);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -166,7 +163,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Publisher";
             this.Text = "メッセージ発信端";
-            ((System.ComponentModel.ISupportInitialize)(this.txtMsgContent)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,10 +178,10 @@
         private System.Windows.Forms.Label lblDelivery;
         private System.Windows.Forms.TextBox txtDeliveryUser;
         private System.Windows.Forms.Label lblMsgContent;
-        private C1.Win.C1Input.C1TextBox txtMsgContent;
         private System.Windows.Forms.Button btnMsgDelivery;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtMsgContent;
     }
 }
 
