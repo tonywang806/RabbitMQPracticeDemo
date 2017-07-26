@@ -44,6 +44,7 @@
             // 
             // txtRecOrder
             // 
+            this.txtRecOrder.ImeMode = System.Windows.Forms.ImeMode.Off;
             this.txtRecOrder.Location = new System.Drawing.Point(89, 32);
             this.txtRecOrder.Name = "txtRecOrder";
             this.txtRecOrder.Size = new System.Drawing.Size(246, 19);
@@ -60,10 +61,11 @@
             // 
             // txtCreateUser
             // 
+            this.txtCreateUser.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.txtCreateUser.Location = new System.Drawing.Point(89, 57);
             this.txtCreateUser.Name = "txtCreateUser";
             this.txtCreateUser.Size = new System.Drawing.Size(246, 19);
-            this.txtCreateUser.TabIndex = 0;
+            this.txtCreateUser.TabIndex = 1;
             // 
             // lblCreateUser
             // 
@@ -76,10 +78,11 @@
             // 
             // txtDeliveryDept
             // 
+            this.txtDeliveryDept.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.txtDeliveryDept.Location = new System.Drawing.Point(138, 82);
             this.txtDeliveryDept.Name = "txtDeliveryDept";
             this.txtDeliveryDept.Size = new System.Drawing.Size(197, 19);
-            this.txtDeliveryDept.TabIndex = 0;
+            this.txtDeliveryDept.TabIndex = 2;
             // 
             // lblDelivery
             // 
@@ -92,10 +95,11 @@
             // 
             // txtDeliveryUser
             // 
+            this.txtDeliveryUser.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.txtDeliveryUser.Location = new System.Drawing.Point(138, 107);
             this.txtDeliveryUser.Name = "txtDeliveryUser";
             this.txtDeliveryUser.Size = new System.Drawing.Size(197, 19);
-            this.txtDeliveryUser.TabIndex = 0;
+            this.txtDeliveryUser.TabIndex = 3;
             // 
             // lblMsgContent
             // 
@@ -112,7 +116,7 @@
             this.btnMsgDelivery.Location = new System.Drawing.Point(32, 265);
             this.btnMsgDelivery.Name = "btnMsgDelivery";
             this.btnMsgDelivery.Size = new System.Drawing.Size(303, 93);
-            this.btnMsgDelivery.TabIndex = 3;
+            this.btnMsgDelivery.TabIndex = 5;
             this.btnMsgDelivery.Text = "発　信";
             this.btnMsgDelivery.UseVisualStyleBackColor = true;
             this.btnMsgDelivery.Click += new System.EventHandler(this.btnMsgDelivery_Click);
@@ -137,6 +141,7 @@
             // 
             // txtMsgContent
             // 
+            this.txtMsgContent.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
             this.txtMsgContent.Location = new System.Drawing.Point(89, 139);
             this.txtMsgContent.Multiline = true;
             this.txtMsgContent.Name = "txtMsgContent";
