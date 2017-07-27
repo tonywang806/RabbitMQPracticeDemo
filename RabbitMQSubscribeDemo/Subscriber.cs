@@ -26,9 +26,9 @@ namespace RabbitMQSubscribeDemo
 
         private void btnReceiveMsgStart_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUser.Text) && string.IsNullOrEmpty(cmbDept.Text))
+            if (string.IsNullOrEmpty(cmbUser.Text))
             {
-                MessageBox.Show("部署と担当者がいずれか入力してください！");
+                MessageBox.Show("担当者まで入力してください！");
                 return;
             }
 
@@ -36,7 +36,7 @@ namespace RabbitMQSubscribeDemo
             tsStatusLable.BackColor = Color.Green;
 
             cmbDept.Enabled = false;
-            txtUser.Enabled = false;
+            cmbUser.Enabled = false;
 
             btnReceiveMsgStart.Enabled = false;
             btnRecevieMsgStop.Enabled = true;
@@ -46,7 +46,7 @@ namespace RabbitMQSubscribeDemo
 
             isListening = true;            
             //受信処理起動
-            bgwConsume.RunWorkerAsync(new object[] { cmbDept.Text,new AddNewMessage(MessageReceivedHandle) });
+            bgwConsume.RunWorkerAsync(new object[] { cmbUser.Text,new AddNewMessage(MessageReceivedHandle) });
         }
 
         private void btnRecevieMsgStop_Click(object sender, EventArgs e)
@@ -57,7 +57,7 @@ namespace RabbitMQSubscribeDemo
 
 
             cmbDept.Enabled = true;
-            txtUser.Enabled = true;
+            cmbUser.Enabled = true;
 
             btnReceiveMsgStart.Enabled = true;
             btnRecevieMsgStop.Enabled = false;
@@ -214,6 +214,34 @@ namespace RabbitMQSubscribeDemo
             else
             {
                 this.tsStatusLable.BackColor = Color.Green;
+            }
+
+        }
+
+        private void cmbDept_SelectedValueChanged(object sender, EventArgs e)
+        {
+            cmbUser.Text = string.Empty;
+            cmbUser.Items.Clear();
+
+            switch (cmbDept.Text)
+            {
+                case "Dept.A":
+                    cmbUser.Items.Add("UserA");
+                    cmbUser.Items.Add("UserB");
+                    cmbUser.Items.Add("UserC");
+                    cmbUser.Items.Add("UserD");
+                    cmbUser.Items.Add("UserE");
+                    break;
+                case "Dept.B":
+                    cmbUser.Items.Add("UserF");
+                    cmbUser.Items.Add("UserG");
+                    break;
+                case "Dept.C":
+                    cmbUser.Items.Add("UserH");
+                    cmbUser.Items.Add("UserI");
+                    break;
+                default:
+                    break;
             }
 
         }

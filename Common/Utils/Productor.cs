@@ -5,13 +5,15 @@ using System.Diagnostics;
 using Common.Model;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using Common;
 
 namespace Common.Utils
 {
     public class Productor
     {
-        public static void SentMessage(MessageModel msg,string routingKey)
+        public static void SentMessage(EnumTransferType type,string exchangeName,string routingKey,MessageModel msg)
         {
+            
             var factory = new ConnectionFactory();
             //サーバー名
             factory.HostName = "godpubtest";
@@ -20,8 +22,6 @@ namespace Common.Utils
             //RabbitServerのパスワード
             factory.Password = "chiyoda";
 
-            var exchangeName = "logs";
-            var exchangeName_direct = "direct_logs";
             try
             {
                 using (var connection = factory.CreateConnection())
@@ -31,29 +31,42 @@ namespace Common.Utils
 
                         var body = SerializeTool.GetArray(msg);
 
-                        //Usage:③ Publish/Subscribe の場合
-                        if (string.IsNullOrEmpty(routingKey))
-                        {
-                            channel.ExchangeDeclare(exchange: exchangeName, type: "fanout");
+                        var properties = channel.CreateBasicProperties();
+                        properties.Persistent = true;
 
-                            //------Persistent----------------------------------
-                            channel.BasicPublish(
-                                exchange: exchangeName,
-                                routingKey: routingKey,
-                                basicProperties: null,
-                                body: body);
-                        }
-                        else
-                        {
-                            channel.ExchangeDeclare(exchange: exchangeName_direct, type: "direct");
+                        switch (type){
+                            case EnumTransferType.All:
+                                channel.ExchangeDeclare(exchange: exchangeName, type: "fanout",durable:true);
 
-                            //------Persistent----------------------------------
-                            channel.BasicPublish(
-                                exchange: exchangeName_direct,
-                                routingKey: routingKey,
-                                basicProperties: null,
-                                body: body);
+                                //------Persistent----------------------------------
+                                channel.BasicPublish(
+                                    exchange: exchangeName,
+                                    routingKey: routingKey,
+                                    basicProperties: properties,
+                                    body: body);
+
+                                break;
+                            case EnumTransferType.Dept:
+                                channel.ExchangeDeclare(exchange: exchangeName, type: "topic",durable:true);
+
+                                //------Persistent----------------------------------
+                                channel.BasicPublish(
+                                    exchange: exchangeName,
+                                    routingKey: routingKey,
+                                    basicProperties: properties,
+                                    body: body);
+
+                                break;
+                            default:
+                                //------Persistent----------------------------------
+                                channel.BasicPublish(
+                                    exchange: "",
+                                    routingKey: routingKey,
+                                    basicProperties: properties,
+                                    body: body);
+                                break;
                         }
+
 
                         Debug.WriteLine(" set {0}", msg.MsgID);
                     }
