@@ -26,7 +26,7 @@ namespace RabbitMQSubscribeDemo
 
         private void btnReceiveMsgStart_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUser.Text) && string.IsNullOrEmpty(txtDept.Text))
+            if (string.IsNullOrEmpty(txtUser.Text) && string.IsNullOrEmpty(cmbDept.Text))
             {
                 MessageBox.Show("部署と担当者がいずれか入力してください！");
                 return;
@@ -40,7 +40,7 @@ namespace RabbitMQSubscribeDemo
 
             isListening = true;
             //受信処理起動
-            bgwConsume.RunWorkerAsync(new AddNewMessage(MessageReceivedHandle));
+            bgwConsume.RunWorkerAsync(new object[] { cmbDept.Text,new AddNewMessage(MessageReceivedHandle) });
         }
 
         private void btnRecevieMsgStop_Click(object sender, EventArgs e)
@@ -99,10 +99,16 @@ namespace RabbitMQSubscribeDemo
             }
             return false;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">[0]queue name ; [1] callback method</param>
         private void bgwConsume_DoWork(object sender, DoWorkEventArgs e)
         {
             Console.WriteLine("bgwConsume_DoWork Done!");
+            object[] param = (object[])e.Argument;
+
             var factory = new ConnectionFactory();
             //サーバー名
             factory.HostName = "godpubtest";
@@ -121,7 +127,7 @@ namespace RabbitMQSubscribeDemo
                     channel.ExchangeDeclare(exchange: exchangeName, type: "fanout");
 
                     // Temporary queues
-                    var queueName = channel.QueueDeclare().QueueName;
+                    var queueName = (string)param[0];
 
                     // Bindings
                     channel.QueueBind(queue: queueName,
@@ -144,7 +150,7 @@ namespace RabbitMQSubscribeDemo
                         Debug.WriteLine(string.Concat("Message id: ", body.MsgID));
                         Debug.WriteLine(string.Concat("Message: ", body.MsgContent));
 
-                        AddNewMessage a = (AddNewMessage)e.Argument;
+                        AddNewMessage a = (AddNewMessage)param[1];
                         this.Invoke(a,body);
 
                         // 如果 channel.BasicConsume 中参数 noAck 设置为 false，必须加上消息确认语句
@@ -174,6 +180,17 @@ namespace RabbitMQSubscribeDemo
                 }
 
             }
+        }
+
+        private void Subscriber_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            isListening = false;
+
+            if (bgwConsume.IsBusy)
+            {
+                bgwConsume.CancelAsync();
+            }
+            bgwConsume.Dispose();
         }
     }
 }
