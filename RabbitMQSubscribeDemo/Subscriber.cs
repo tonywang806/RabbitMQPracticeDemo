@@ -32,13 +32,19 @@ namespace RabbitMQSubscribeDemo
                 return;
             }
 
-            tsStatusLable.Text = "受信中";
+            tsStatusLableText.Text = "受信中";
             tsStatusLable.BackColor = Color.Green;
+
+            cmbDept.Enabled = false;
+            txtUser.Enabled = false;
 
             btnReceiveMsgStart.Enabled = false;
             btnRecevieMsgStop.Enabled = true;
 
-            isListening = true;
+
+            tmReceiveFlashLight.Start();
+
+            isListening = true;            
             //受信処理起動
             bgwConsume.RunWorkerAsync(new object[] { cmbDept.Text,new AddNewMessage(MessageReceivedHandle) });
         }
@@ -46,11 +52,17 @@ namespace RabbitMQSubscribeDemo
         private void btnRecevieMsgStop_Click(object sender, EventArgs e)
         {
             //受信処理停止
-            tsStatusLable.Text = "受信停止";
+            tsStatusLableText.Text = "受信停止";
             tsStatusLable.BackColor = Color.Red;
+
+
+            cmbDept.Enabled = true;
+            txtUser.Enabled = true;
 
             btnReceiveMsgStart.Enabled = true;
             btnRecevieMsgStop.Enabled = false;
+
+            tmReceiveFlashLight.Stop();
 
             isListening = false;
 
@@ -117,22 +129,22 @@ namespace RabbitMQSubscribeDemo
             //RabbitServerのパスワード
             factory.Password = "chiyoda";
 
-            var exchangeName = "logs";
-
             using (var connection = factory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {
                     //Useage:③　
-                    channel.ExchangeDeclare(exchange: exchangeName, type: "fanout");
+                    //channel.ExchangeDeclare(exchange: exchangeName, type: "fanout");
 
                     // Temporary queues
                     var queueName = (string)param[0];
 
                     // Bindings
-                    channel.QueueBind(queue: queueName,
-                                      exchange: exchangeName,
-                                      routingKey: "");
+                    channel.QueueDeclare(queue: queueName,
+                                      durable: true,
+                                      exclusive: false,
+                                      autoDelete: false,
+                                      arguments:null);
 
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (ch, ea) =>
@@ -191,6 +203,19 @@ namespace RabbitMQSubscribeDemo
                 bgwConsume.CancelAsync();
             }
             bgwConsume.Dispose();
+        }
+
+        private void tmReceiveFlashLight_Tick(object sender, EventArgs e)
+        {
+            if(this.tsStatusLable.BackColor==Color.Green)
+            {
+                this.tsStatusLable.BackColor = SystemColors.Control;
+            }
+            else
+            {
+                this.tsStatusLable.BackColor = Color.Green;
+            }
+
         }
     }
 }

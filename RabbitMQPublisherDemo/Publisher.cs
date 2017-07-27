@@ -29,14 +29,14 @@ namespace RabbitMQPublisherDemo
             message.MsgRecOrder = this.txtRecOrder.Text;
             message.MsgCreateUser = this.txtCreateUser.Text;
             message.MsgCreateDateTime = DateTime.Now.ToShortTimeString();
-            message.MsgSloveDept = this.txtDeliveryDept.Text;
+            message.MsgSloveDept = this.cmbDeliveryDept.Text;
             message.MsgSloveUser = this.txtDeliveryUser.Text;
             message.MsgContent = this.txtMsgContent.Text;
 
             try
             {
 
-                Productor.SentMessage(message);
+                Productor.SentMessage(message, this.cmbDeliveryDept.Text);
             }
             catch(Exception ex)
             {

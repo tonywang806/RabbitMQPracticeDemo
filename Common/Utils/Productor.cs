@@ -10,7 +10,7 @@ namespace Common.Utils
 {
     public class Productor
     {
-        public static void SentMessage(MessageModel msg)
+        public static void SentMessage(MessageModel msg,string routingKey)
         {
             var factory = new ConnectionFactory();
             //サーバー名
@@ -21,7 +21,7 @@ namespace Common.Utils
             factory.Password = "chiyoda";
 
             var exchangeName = "logs";
-
+            var exchangeName_direct = "direct_logs";
             try
             {
                 using (var connection = factory.CreateConnection())
@@ -29,23 +29,31 @@ namespace Common.Utils
                     using (var channel = connection.CreateModel())
                     {
 
-                        //Usage:③ Publish/Subscribe の場合
-                        channel.ExchangeDeclare(exchange: exchangeName, type: "fanout");
-
-
                         var body = SerializeTool.GetArray(msg);
 
-                        // 如果 channel.QueueDeclare 中参数 durable 设置为 true，必须加上持久化语句
-                        var properties = channel.CreateBasicProperties();
-                        properties.Persistent = true;
+                        //Usage:③ Publish/Subscribe の場合
+                        if (string.IsNullOrEmpty(routingKey))
+                        {
+                            channel.ExchangeDeclare(exchange: exchangeName, type: "fanout");
 
-  
-                        //------Persistent----------------------------------
-                        channel.BasicPublish(
-                            exchange: exchangeName,
-                            routingKey: "",
-                            basicProperties: properties,
-                            body: body);
+                            //------Persistent----------------------------------
+                            channel.BasicPublish(
+                                exchange: exchangeName,
+                                routingKey: routingKey,
+                                basicProperties: null,
+                                body: body);
+                        }
+                        else
+                        {
+                            channel.ExchangeDeclare(exchange: exchangeName_direct, type: "direct");
+
+                            //------Persistent----------------------------------
+                            channel.BasicPublish(
+                                exchange: exchangeName_direct,
+                                routingKey: routingKey,
+                                basicProperties: null,
+                                body: body);
+                        }
 
                         Debug.WriteLine(" set {0}", msg.MsgID);
                     }

@@ -32,7 +32,6 @@
             this.lblRecOrder = new System.Windows.Forms.Label();
             this.txtCreateUser = new System.Windows.Forms.TextBox();
             this.lblCreateUser = new System.Windows.Forms.Label();
-            this.txtDeliveryDept = new System.Windows.Forms.TextBox();
             this.lblDelivery = new System.Windows.Forms.Label();
             this.txtDeliveryUser = new System.Windows.Forms.TextBox();
             this.lblMsgContent = new System.Windows.Forms.Label();
@@ -40,6 +39,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtMsgContent = new System.Windows.Forms.TextBox();
+            this.cmbDeliveryDept = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // txtRecOrder
@@ -75,14 +75,6 @@
             this.lblCreateUser.Size = new System.Drawing.Size(41, 12);
             this.lblCreateUser.TabIndex = 1;
             this.lblCreateUser.Text = "作成者";
-            // 
-            // txtDeliveryDept
-            // 
-            this.txtDeliveryDept.ImeMode = System.Windows.Forms.ImeMode.Hiragana;
-            this.txtDeliveryDept.Location = new System.Drawing.Point(138, 82);
-            this.txtDeliveryDept.Name = "txtDeliveryDept";
-            this.txtDeliveryDept.Size = new System.Drawing.Size(197, 19);
-            this.txtDeliveryDept.TabIndex = 2;
             // 
             // lblDelivery
             // 
@@ -148,11 +140,24 @@
             this.txtMsgContent.Size = new System.Drawing.Size(246, 105);
             this.txtMsgContent.TabIndex = 4;
             // 
+            // cmbDeliveryDept
+            // 
+            this.cmbDeliveryDept.FormattingEnabled = true;
+            this.cmbDeliveryDept.Items.AddRange(new object[] {
+            "Dept.A",
+            "Dept.B",
+            "Dept.C"});
+            this.cmbDeliveryDept.Location = new System.Drawing.Point(138, 83);
+            this.cmbDeliveryDept.Name = "cmbDeliveryDept";
+            this.cmbDeliveryDept.Size = new System.Drawing.Size(197, 20);
+            this.cmbDeliveryDept.TabIndex = 6;
+            // 
             // Publisher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(379, 382);
+            this.Controls.Add(this.cmbDeliveryDept);
             this.Controls.Add(this.txtMsgContent);
             this.Controls.Add(this.btnMsgDelivery);
             this.Controls.Add(this.lblMsgContent);
@@ -162,7 +167,6 @@
             this.Controls.Add(this.lblCreateUser);
             this.Controls.Add(this.lblRecOrder);
             this.Controls.Add(this.txtDeliveryUser);
-            this.Controls.Add(this.txtDeliveryDept);
             this.Controls.Add(this.txtCreateUser);
             this.Controls.Add(this.txtRecOrder);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -179,7 +183,6 @@
         private System.Windows.Forms.Label lblRecOrder;
         private System.Windows.Forms.TextBox txtCreateUser;
         private System.Windows.Forms.Label lblCreateUser;
-        private System.Windows.Forms.TextBox txtDeliveryDept;
         private System.Windows.Forms.Label lblDelivery;
         private System.Windows.Forms.TextBox txtDeliveryUser;
         private System.Windows.Forms.Label lblMsgContent;
@@ -187,6 +190,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtMsgContent;
+        private System.Windows.Forms.ComboBox cmbDeliveryDept;
     }
 }
 
