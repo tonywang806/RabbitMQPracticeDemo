@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Publisher));
             this.txtRecOrder = new System.Windows.Forms.TextBox();
             this.lblRecOrder = new System.Windows.Forms.Label();
             this.txtCreateUser = new System.Windows.Forms.TextBox();
@@ -220,6 +221,7 @@
             this.Controls.Add(this.txtCreateUser);
             this.Controls.Add(this.txtRecOrder);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Publisher";
             this.Text = "メッセージ発信端";
             this.ResumeLayout(false);
