@@ -20,7 +20,7 @@ namespace Common.Utils
             //RabbitServerのパスワード
             factory.Password = "chiyoda";
 
-            var queueName = "hello";
+            var exchangeName = "logs";
 
             try
             {
@@ -29,50 +29,22 @@ namespace Common.Utils
                     using (var channel = connection.CreateModel())
                     {
 
-                        ////Usage:①簡単の場合
-                        //channel.QueueDeclare(
-                        //    queue: queueName,
-                        //    durable: false,
-                        //    exclusive: false,
-                        //    autoDelete: false,
-                        //    arguments: null
-                        //    );
-                        //var body = Encoding.UTF8.GetBytes(message);
-                        //----------------------------------------
+                        //Usage:③ Publish/Subscribe の場合
+                        channel.ExchangeDeclare(exchange: exchangeName, type: "fanout");
 
-                        //Usage:② Work Queuesの場合
-                        queueName = "task_queue";
 
-                        channel.QueueDeclare(
-                            queue: queueName,
-                            durable: true,
-                            exclusive: false,
-                            autoDelete: false,
-                            arguments: null
-                            );
-                        //var body = Encoding.UTF8.GetBytes(message);
                         var body = SerializeTool.GetArray(msg);
 
                         // 如果 channel.QueueDeclare 中参数 durable 设置为 true，必须加上持久化语句
                         var properties = channel.CreateBasicProperties();
                         properties.Persistent = true;
-                        
-                        //----------------------------------------
 
-
-
-                        //------Non-Persistent-------------------------------
-                        //channel.BasicPublish(
-                        //    exchange: "", 
-                        //    routingKey: queueName, 
-                        //    basicProperties: null, 
-                        //    body:body);
-
+  
                         //------Persistent----------------------------------
                         channel.BasicPublish(
-                            exchange: "",
-                            routingKey: queueName,
-                            basicProperties:properties,
+                            exchange: exchangeName,
+                            routingKey: "",
+                            basicProperties: properties,
                             body: body);
 
                         Debug.WriteLine(" set {0}", msg.MsgID);

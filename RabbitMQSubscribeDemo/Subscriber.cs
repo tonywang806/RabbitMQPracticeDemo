@@ -111,27 +111,22 @@ namespace RabbitMQSubscribeDemo
             //RabbitServerのパスワード
             factory.Password = "chiyoda";
 
-            var queueName = "task_queue";
+            var exchangeName = "logs";
 
             using (var connection = factory.CreateConnection())
             {
                 using (var channel = connection.CreateModel())
                 {
+                    //Useage:③　
+                    channel.ExchangeDeclare(exchange: exchangeName, type: "fanout");
 
-                    //Useage:② Message durability（消息持久机制），关键参数 durable
-                    channel.QueueDeclare(queue: queueName,
-                                         durable: true /* 如果 生产者 设置为 true，相应的 消费者 也需要设置为 true 才会生效 */,
-                                         exclusive: false,
-                                         autoDelete: false,
-                                         arguments: null);
+                    // Temporary queues
+                    var queueName = channel.QueueDeclare().QueueName;
 
-
-                    // Fair dispatch（公平触发机制）
-                    channel.BasicQos(
-                        prefetchSize: 0,
-                        prefetchCount: 1,
-                        global: false);
-
+                    // Bindings
+                    channel.QueueBind(queue: queueName,
+                                      exchange: exchangeName,
+                                      routingKey: "");
 
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (ch, ea) =>
