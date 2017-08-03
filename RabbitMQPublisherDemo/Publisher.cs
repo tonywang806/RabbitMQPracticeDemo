@@ -70,6 +70,8 @@ namespace RabbitMQPublisherDemo
                     t = EnumTransferType.User;
                 }
 
+                RadioButton prority = pnlPrority.Controls.OfType<RadioButton>().SingleOrDefault(radio => radio.Checked == true);
+                message.Priority = int.Parse(prority.Text);
 
                 Productor.SentMessage(t,exchangeName, routingKey,message);
             }
@@ -101,6 +103,7 @@ namespace RabbitMQPublisherDemo
                 case "Dept.C":
                     cmbDeliveryUser.Items.Add("UserH");
                     cmbDeliveryUser.Items.Add("UserI");
+                    cmbDeliveryUser.Items.Add("UserJ");
                     break;
                 default:
                     break;
@@ -129,6 +132,5 @@ namespace RabbitMQPublisherDemo
 
             return true;
         }
-
     }
 }

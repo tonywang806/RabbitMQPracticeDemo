@@ -139,12 +139,21 @@ namespace RabbitMQSubscribeDemo
                     // Temporary queues
                     var queueName = (string)param[0];
 
-                    // Bindings
+                    //// Bindings
+                    //channel.QueueDeclare(queue: queueName,
+                    //                  durable: true,
+                    //                  exclusive: false,
+                    //                  autoDelete: false,
+                    //                  arguments:null);
+
+                    //Bindings  With Arguments
+                    IDictionary<String, Object> args = new Dictionary<String, Object>();
+                    args.Add("x-max-priority", 10);
                     channel.QueueDeclare(queue: queueName,
-                                      durable: true,
-                                      exclusive: false,
-                                      autoDelete: false,
-                                      arguments:null);
+                                         durable: true,
+                                         exclusive: false,
+                                         autoDelete: false,
+                                         arguments: args);
 
                     var consumer = new EventingBasicConsumer(channel);
                     consumer.Received += (ch, ea) =>
@@ -239,6 +248,7 @@ namespace RabbitMQSubscribeDemo
                 case "Dept.C":
                     cmbUser.Items.Add("UserH");
                     cmbUser.Items.Add("UserI");
+                    cmbUser.Items.Add("UserJ");
                     break;
                 default:
                     break;

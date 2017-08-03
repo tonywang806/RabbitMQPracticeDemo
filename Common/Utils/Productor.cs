@@ -34,6 +34,9 @@ namespace Common.Utils
                         var properties = channel.CreateBasicProperties();
                         properties.Persistent = true;
 
+                        properties.Priority = Convert.ToByte(msg.Priority); 
+
+
                         switch (type){
                             case EnumTransferType.All:
                                 channel.ExchangeDeclare(exchange: exchangeName, type: "fanout",durable:true);

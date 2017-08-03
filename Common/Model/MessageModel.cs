@@ -17,6 +17,7 @@ namespace Common.Model
         private string _msgSloveDept;
         private string _msgSloveUser;
         private string _msgContent;
+        private int _priority;
 
         public string MsgID
         {
@@ -109,6 +110,6 @@ namespace Common.Model
             }
         }
 
-
+        public int Priority { get => _priority; set => _priority = value; }
     }
 }
