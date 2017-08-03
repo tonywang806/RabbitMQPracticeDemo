@@ -103,7 +103,7 @@ namespace RabbitMQPublisherDemo
                 case "Dept.C":
                     cmbDeliveryUser.Items.Add("UserH");
                     cmbDeliveryUser.Items.Add("UserI");
-                    cmbDeliveryUser.Items.Add("UserJ");
+                    cmbDeliveryUser.Items.Add("UserPrority");
                     break;
                 default:
                     break;
