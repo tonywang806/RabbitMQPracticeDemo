@@ -21,7 +21,9 @@ Windows 10 /　Windows 7
 .NET Framework 4.5.2
 
 ・サーバー側
+
 Windows Server 12
+
 RabbitMQ
 
 ## 使用方法
