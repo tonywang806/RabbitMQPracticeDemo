@@ -27,6 +27,7 @@ Windows Server 12
 RabbitMQ
 
 ## 使用方法
+添付の資料にご参照ください。
 
 ## 開発環境
 
